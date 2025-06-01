@@ -24,9 +24,14 @@ const SignUp: React.FC = () => {
       );
       await updateProfile(userCredential.user, { displayName });
       console.log("User registered successfully");
+      navigate("/");
     } catch (error) {
       console.error("Error registering user:", error);
     }
+  };
+
+  const handleNavigateSignIn = () => {
+    navigate("/signIn");
   };
 
   const handleGoogleSignIn = async () => {
@@ -45,7 +50,7 @@ const SignUp: React.FC = () => {
     <div className="flex justify-center items-center h-full">
       <form
         onSubmit={handleRegister}
-        className="outline-solid flex flex-col justify-center items-center space-y-8 h-full w-1/3 p-10"
+        className="outline-solid outline-[var(--tertiary-color)] rounded-xl flex flex-col justify-center items-center space-y-8 h-full w-1/3 p-10"
       >
         <input
           type="text"
@@ -101,6 +106,15 @@ const SignUp: React.FC = () => {
             />
           </svg>
         </button>
+        <div className="flex flex-row text-[var(--primary-color)] space-x-2 items-center">
+          <p>Already registered?</p>
+          <button
+            className="underline hover:bg-[var(--tertiary-color)] hover:text-[var(--secondary-color)] p-2"
+            onClick={handleNavigateSignIn}
+          >
+            Sign In
+          </button>
+        </div>
       </form>
     </div>
   );

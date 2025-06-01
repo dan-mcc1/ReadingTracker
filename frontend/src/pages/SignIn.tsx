@@ -57,7 +57,7 @@ const SignIn: React.FC = () => {
       />
       <button
         type="submit"
-        className="bg-[var(--primary-color)] text-[var(--secondary-color)]"
+        className="bg-[var(--tertiary-color)] text-[var(--secondary-color)] py-[0.6em] px-[1.2em]"
       >
         Login
       </button>

@@ -1,20 +1,50 @@
 import { Link } from "react-router-dom";
 import type { INavLink } from "../types/common";
+import { useEffect, useState } from "react";
+import type { User } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const Header = () => {
-  const navLink: INavLink[] = [
-    { name: "Home", path: "/", className: "text-[var(--secondary-color)]" },
-    {
-      name: "Sign In",
-      path: "/signIn",
-      className: "text-[var(--secondary-color)]",
-    },
-    {
-      name: "Sign Up",
-      path: "/signUp",
-      className: "text-[var(--secondary-color)] font-bold",
-    },
-  ];
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth();
+
+  const handleSignOut = () => {
+    auth.signOut();
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser); // will be null if not signed in
+    });
+    return () => unsubscribe(); // cleanup listener
+  }, [auth]);
+
+  const navLink: INavLink[] = user
+    ? [
+        {
+          name: "Home",
+          path: "/",
+        },
+        {
+          name: "Settings",
+          path: "/settings",
+        },
+        {
+          name: "Sign Out",
+          path: "/",
+        },
+      ]
+    : [
+        { name: "Home", path: "/" },
+        {
+          name: "Sign In",
+          path: "/signIn",
+        },
+        {
+          name: "Sign Up",
+          path: "/signUp",
+        },
+      ];
 
   return (
     <header className="w-full sticky md:px-20 top-0 bg-[var(--primary-color)] z-20 mb-4 flex items-center justify-between p-8">
@@ -24,11 +54,25 @@ export const Header = () => {
         </div>
       </Link>
       <div className="hidden lg:flex space-x-10">
-        {navLink.map((item) => (
-          <Link key={item.path} to={item.path} className={item.className}>
-            {item.name}
-          </Link>
-        ))}
+        {navLink.map((item) =>
+          item.name === "Sign Out" ? (
+            <button
+              key={item.name}
+              onClick={handleSignOut}
+              className="text-[var(--secondary-color)]"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="text-[var(--secondary-color)]"
+            >
+              {item.name}
+            </Link>
+          )
+        )}
       </div>
     </header>
   );
