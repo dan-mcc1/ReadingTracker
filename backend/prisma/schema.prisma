@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(uuid())
+  firebaseId  String       @unique
+  name        String
+  email       String?      @unique
+  userBooks   UserBook[]
+  friends     User[]       @relation("UserFriends")
+  friendOf    User[]       @relation("UserFriends")
+  memberships BookClubMember[]
+}
+
+model Book {
+  id            String       @id @default(uuid())
+  googleBookId  String       @unique
+  title         String
+  author        String
+  description   String?
+  coverUrl      String?
+  createdAt     DateTime     @default(now())
+  userBooks     UserBook[]
+}
+
+model UserBook {
+  id         String   @id @default(uuid())
+  userId     String
+  bookId     String
+  shelf      Shelf
+  notes      String?
+  rating     Int?
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id])
+  book       Book     @relation(fields: [bookId], references: [id])
+
+  @@unique([userId, bookId]) // a user can only add a specific book once
+}
+
+model BookClub {
+  id          String            @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  createdAt   DateTime          @default(now())
+
+  owner       User              @relation(fields: [ownerId], references: [id])
+  members     BookClubMember[]
+}
+
+model BookClubMember {
+  id          String   @id @default(uuid())
+  userId      String
+  bookClubId  String
+
+  user        User     @relation(fields: [userId], references: [id])
+  bookClub    BookClub @relation(fields: [bookClubId], references: [id])
+
+  @@unique([userId, bookClubId])
+}
+
+enum Shelf {
+  TBR
+  READ
+  DNF
+  FAVORITE
+  CURRENTLY_READING
+}

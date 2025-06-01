@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Env files
+.env
+
+# Build output (if using tsc to compile)
+dist/
+build/
+
+# Prisma generated files
+prisma/dev.db
+prisma/migrations/
+
+# Logs
+logs/
+*.log
+
+# System files
+.DS_Store
