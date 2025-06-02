@@ -47,7 +47,7 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex flex-grow justify-center items-center h-full">
       <form
         onSubmit={handleRegister}
         className="outline-solid outline-[var(--tertiary-color)] rounded-xl flex flex-col justify-center items-center space-y-8 h-full w-1/3 p-10"

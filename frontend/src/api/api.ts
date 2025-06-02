@@ -3,7 +3,7 @@ import axios from "axios";
 import { auth } from "../firebase";
 
 const API = axios.create({
-  baseURL: "http://localhost:3001/api", // your backend base path
+  baseURL: "http://localhost:5000/api", // your backend base path
 });
 
 // Interceptor to attach Firebase token to each request

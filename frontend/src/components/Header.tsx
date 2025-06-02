@@ -26,6 +26,10 @@ export const Header = () => {
           path: "/",
         },
         {
+          name: "Search",
+          path: "/search",
+        },
+        {
           name: "Settings",
           path: "/settings",
         },
@@ -36,6 +40,10 @@ export const Header = () => {
       ]
     : [
         { name: "Home", path: "/" },
+        {
+          name: "Search",
+          path: "/search",
+        },
         {
           name: "Sign In",
           path: "/signIn",

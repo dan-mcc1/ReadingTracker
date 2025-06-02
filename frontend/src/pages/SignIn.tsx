@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
   return (
     <form
       onSubmit={handleLogin}
-      className="flex flex-col justify-center items-center space-y-4 h-full"
+      className="flex flex-col flex-grow justify-center items-center space-y-4 h-full"
     >
       <input
         type="email"
